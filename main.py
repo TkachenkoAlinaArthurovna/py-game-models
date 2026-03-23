@@ -13,6 +13,8 @@ def main() -> None:
 
     for nickname, playerinfo in players.items():
         race_data = playerinfo.get("race")
+        if not isinstance(race_data, dict):
+            continue
         race_name = race_data.get("name")
         race_description = race_data.get("description")
         guild_data = playerinfo.get("guild")
@@ -27,7 +29,7 @@ def main() -> None:
                 defaults={"description": guild_description})
         else:
             guild = None
-        skills = race_data.get("skills")
+        skills = race_data.get("skills", [])
         for skill_ in skills:
             Skill.objects.get_or_create(
                 name=skill_.get("name"),
